@@ -1,0 +1,9 @@
+
+# vagrant
+.vagrant
+
+# intellij
+.idea
+
+# ansible
+*.retry
