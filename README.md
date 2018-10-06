@@ -67,9 +67,9 @@ Global configuration can be stored in ansible.cfg
 ### playbooks
 
 #### execute a playbook
-    ansible-playbook web-tls.yml
+    ansible-playbook playbooks/playbook.yml -i inventory/dev
     # or if the playbook file is executable and starts with `#!/usr/bin/env ansible-playbook`
-    ./web-tls.yml
+    playbooks/playbook.yml -i inventory/dev
     
 handlers should be used only to restart servicesd
 WARNING :
