@@ -1,7 +1,7 @@
 #!/usr/bin/env ansible-playbook
 ---
 - name: Configure webserver with nginx and tls
-  hosts: webservers
+  hosts: nginx
   become: True
   vars:
     key_file: /etc/nginx/ssl/nginx.key

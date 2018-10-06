@@ -22,6 +22,8 @@ Eventually, add port mapping in your vagrantfile and run `vagrant reload`
     # or
     ssh vagrant@127.0.0.1 -p 2222 -i .vagrant/machines/default/virtualbox/private_key
 
+### get vm status
+    vagrant status
 
 ## nginx
 
@@ -35,6 +37,8 @@ Eventually, add port mapping in your vagrantfile and run `vagrant reload`
 ### intall ansible
 
     sudo pip install ansible
+    
+Global configuration can be stored in ansible.cfg
 
 ### ping a host or a group
 
