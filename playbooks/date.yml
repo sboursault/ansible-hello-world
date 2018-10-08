@@ -1,0 +1,19 @@
+#!/usr/bin/env ansible-playbook
+
+# call '/bin/sh date', assign the output to a fact and print the result
+
+---
+- name: Get date
+  hosts: all
+  become: True
+  tasks:
+    - name: print 'date'
+      debug: var=date
+    - name: execute date
+      shell: >
+        date
+      register: date_result
+    - name: assign result to 'date'
+      set_fact: date={{ date_result.stdout }}
+    - name: print 'date' again
+      debug: var=date

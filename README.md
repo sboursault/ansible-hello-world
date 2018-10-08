@@ -66,6 +66,9 @@ Global configuration can be stored in ansible.cfg
 
 ### playbooks
 
+### list tasks
+    playbooks/playbook.yml -i inventory/dev --list-tasks
+
 #### execute a playbook
     ansible-playbook playbooks/playbook.yml -i inventory/dev
     # or if the playbook file is executable and starts with `#!/usr/bin/env ansible-playbook`
@@ -75,3 +78,6 @@ handlers should be used only to restart servicesd
 WARNING :
   a handler may not be triggered if an error occurs on a task.
   Plus, re-running the play won't help, since the task which notifies the handler won't be executed (no state change)
+  
+### getting facts
+    ansible nginx -m setup [-a 'filter=ansible_eth*'] -i inventory/dev

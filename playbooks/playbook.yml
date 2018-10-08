@@ -9,6 +9,8 @@
     conf_file: /etc/nginx/sites-available/default
     server_name: localhost
   tasks:
+    - debug: msg="updating {{ env_name }} environment"
+    #- debug: var=hostvars
     - name: Install nginx
       apt: name=nginx update_cache=yes cache_valid_time=3600
     - name: create directories for ssl certificates
