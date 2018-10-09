@@ -13,6 +13,9 @@ Eventually, add port mapping in your vagrantfile and run `vagrant reload`
 
 ### get the ssh config for to connecto to the VM
     vagrant ssh-config
+    
+### stop image
+    vagrant halt
 
 ### destroy image
     vagrant destroy [--force]
@@ -81,3 +84,11 @@ WARNING :
   
 ### getting facts
     ansible nginx -m setup [-a 'filter=ansible_eth*'] -i inventory/dev
+
+
+# take aways
+
+
+“Simple things should be simple, complex things should be possible.”
+― Alan Kay
+
