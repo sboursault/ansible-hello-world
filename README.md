@@ -1,5 +1,18 @@
 # ansible-hello-world
 
+# TLDR;
+    
+    # start VMs
+    vagrant up
+    
+    # run playbooks
+    playbooks/main.yml -i inventory/dev
+    playbooks/hello-world.yml -i inventory/dev
+    
+    # watch the result
+    curl -i http://localhost:8080
+    curl -i http://localhost:8080/hello
+
 ## vagrant servers
 
 ### create and run Vagrant VM
@@ -90,4 +103,12 @@ WARNING :
 
 “Simple things should be simple, complex things should be possible.”
 ― Alan Kay
+
+
+
+# anisble runner with doker
+
+docker run --rm -v `pwd`:/ansible -w /ansible williamyeh/ansible:ubuntu16.04 playbooks/test.yml -i inventory/dev
+
+
 
