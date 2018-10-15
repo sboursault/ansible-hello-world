@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+export HELLO_WORLD_PORT={{ hello_world_port }}
+
+if pgrep -f "hello-world/app.py" >/dev/null 2>&1;
+then
+  echo "already running"
+else
+  nohup python ~/hello-world/app.py &
+  sleep 2
+  if pgrep -f "hello-world/app.py" >/dev/null 2>&1;
+  then
+    echo "service running"
+  else
+    echo "failed to start"
+    exit 1
+  fi
+fi

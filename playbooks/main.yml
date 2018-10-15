@@ -6,9 +6,25 @@
 
   vars:
 
+  pre_tasks:
+    - debug: msg="running pre-tasks"
+
+  roles:
+    - role: hello-world
+      hello_world_version: 1.1
+      hello_world_port: 5005
+
   tasks:
+    - debug: msg="running tasks"
+
+  post_tasks:
+    - debug: msg="running post-tasks"
+
     - debug: msg="updating {{ env_name }} environment"
     #- debug: var=hostvars
+
+    # TODO: create nginx role
+    # add filters
 
     - name: Install nginx
       apt: name=nginx update_cache=yes cache_valid_time=3600

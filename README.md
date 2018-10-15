@@ -98,6 +98,11 @@ WARNING :
 ### getting facts
     ansible nginx -m setup [-a 'filter=ansible_eth*'] -i inventory/dev
 
+### roles
+
+create a new role
+
+    ansible-galaxy init <role>
 
 # take aways
 

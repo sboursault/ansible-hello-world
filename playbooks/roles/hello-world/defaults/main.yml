@@ -1,0 +1,7 @@
+---
+# defaults file for hello-world
+# Variables defined here can be overriden in a playbook.
+# "Constants" (variables with a higher precedence), can be defined in <your-role>/vars/main.yml.
+
+hello_world_version: 1.0
+hello_world_port: 5005

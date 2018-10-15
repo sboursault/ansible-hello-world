@@ -1,0 +1,32 @@
+---
+# tasks file for hello-world
+
+- name: install apt packages
+  apt: pkg=python-pip update_cache=yes cache_valid_time=86400
+  become: True
+
+- name: install python libraries
+  pip: name={{ item }}
+  become: True
+  with_items:
+    - Flask
+  # should be based on a dependency file
+
+- name: create directory
+  file:
+    path: "{{ hello_world_directory }}"
+    owner: vagrant
+    group: vagrant
+    mode: 0700
+    state: directory
+
+- name: deploy service
+  copy: src=files/v{{ hello_world_version }}/app.py dest={{ hello_world_directory }} owner=vagrant mode=0700
+
+- name: deploy runner
+  template: src=templates/run.sh.j2 dest={{ hello_world_directory }}/run.sh owner=vagrant mode=0700
+
+- name: run hello-world service
+  shell: "{{ hello_world_directory }}/run.sh"
+  register: result
+  changed_when: result.stdout != "already running"
