@@ -19,7 +19,7 @@ server {
 
   location /hello {
       rewrite ^/hello/?(.*)$ /$1 break;
-      proxy_pass http://127.0.0.1:5005;
+      proxy_pass http://127.0.0.1:{{ hello_world_port }};
   }
 
 }

@@ -5,6 +5,7 @@
   become: True
 
   vars:
+    hello_world_port: 5008
 
   pre_tasks:
     - debug: msg="running pre-tasks"
@@ -12,7 +13,7 @@
   roles:
     - role: hello-world
       hello_world_version: 1.1
-      hello_world_port: 5005
+      hello_world_port: {{ hello_world_port }} # not required
 
   tasks:
     - debug: msg="running tasks"
@@ -40,7 +41,7 @@
       notify: restart nginx
 
     - name: copy nginx config file
-      copy: src=nginx/nginx.conf dest=/etc/nginx/sites-available/default
+      template: src=nginx/nginx.conf.j2 dest=/etc/nginx/sites-available/default
       notify: restart nginx
 
     - name: enable configuration

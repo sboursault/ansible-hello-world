@@ -22,9 +22,11 @@
 
 - name: deploy service
   copy: src=files/v{{ hello_world_version }}/app.py dest={{ hello_world_directory }} owner=vagrant mode=0700
+  # notify: restart service
 
 - name: deploy runner
   template: src=templates/run.sh.j2 dest={{ hello_world_directory }}/run.sh owner=vagrant mode=0700
+  # notify: restart service
 
 - name: run hello-world service
   shell: "{{ hello_world_directory }}/run.sh"
