@@ -3,14 +3,14 @@ Role Name
 
 Install and start the hello-world service.
 
-
 Role Variables
 --------------
 
-| variables           | possible values | default |
-|---------------------|-----------------|---------|
-| hello_world_version | 1.0, 1.1        | 1.0     |
-| hello_world_port    | any number      | 5005    |
+| variables           | possible values | default 
+|:--------------------|-----------------|---------
+| hello_world_version | 1.0, 1.1        | 1.0     
+| hello_world_port    | any number      | 5005    
+
 
 
 Example Playbook

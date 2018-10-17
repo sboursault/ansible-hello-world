@@ -8,25 +8,14 @@
     hello_world_port: 5008
 
   pre_tasks:
-    - debug: msg="running pre-tasks"
+    - debug: msg="updating {{ env_name }} environment"
 
   roles:
     - role: hello-world
       hello_world_version: 1.1
-      hello_world_port: {{ hello_world_port }} # not required
+      # hello_world_port: "{{ hello_world_port }}" # causes an infinite loop
 
   tasks:
-    - debug: msg="running tasks"
-
-  post_tasks:
-    - debug: msg="running post-tasks"
-
-    - debug: msg="updating {{ env_name }} environment"
-    #- debug: var=hostvars
-
-    # TODO: create nginx role
-    # add filters
-
     - name: Install nginx
       apt: name=nginx update_cache=yes cache_valid_time=3600
 
@@ -50,6 +39,8 @@
 
     - name: copy index.html
       template: src=www/index.html.j2 dest=/usr/share/nginx/html/index.html mode=0644
+
+  post_tasks:
 
   handlers:
     - name: restart nginx

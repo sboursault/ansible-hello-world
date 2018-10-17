@@ -8,9 +8,8 @@
 - name: install python libraries
   pip: name={{ item }}
   become: True
-  with_items:
-    - Flask
-  # should be based on a dependency file
+  with_lines:
+    - cat {{ role_path }}/files/v{{ hello_world_version }}/dependencies.txt # command executed on the control machine
 
 - name: create directory
   file:
@@ -25,10 +24,15 @@
   # notify: restart service
 
 - name: deploy runner
-  template: src=templates/run.sh.j2 dest={{ hello_world_directory }}/run.sh owner=vagrant mode=0700
+  template: src=templates/start.sh.j2 dest={{ hello_world_directory }}/start.sh owner=vagrant mode=0700
   # notify: restart service
 
 - name: run hello-world service
-  shell: "{{ hello_world_directory }}/run.sh"
+  shell: "{{ hello_world_directory }}/start.sh"
   register: result
-  changed_when: result.stdout != "already running"
+  changed_when: '"service started" in result.stdout|default("")' # filter used for demo, but useless here
+  ignore_errors: True
+
+- name: verify result
+  debug: var=result
+  failed_when: result is failed
