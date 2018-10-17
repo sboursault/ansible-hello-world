@@ -1,4 +1,4 @@
-Role Name
+hello-world role
 =========
 
 Install and start the hello-world service.
@@ -6,9 +6,9 @@ Install and start the hello-world service.
 Role Variables
 --------------
 
-| variables           | possible values | default 
+| variable            | possible values | default 
 |:--------------------|-----------------|---------
-| hello_world_version | 1.0, 1.1        | 1.0     
+| hello_world_version | 1.0, 1.1        | null (     
 | hello_world_port    | any number      | 5005    
 
 

@@ -6,8 +6,7 @@
     vagrant up
     
     # run playbooks
-    playbooks/main.yml -i inventory/dev
-    playbooks/hello-world.yml -i inventory/dev
+    playbooks/main.yml -i inventory/vagrant
     
     # watch the result
     curl -i http://localhost:8080
@@ -83,12 +82,12 @@ Global configuration can be stored in ansible.cfg
 ### playbooks
 
 ### list tasks
-    playbooks/playbook.yml -i inventory/dev --list-tasks
+    playbooks/playbook.yml -i inventory/vagrant --list-tasks
 
 #### execute a playbook
-    ansible-playbook playbooks/playbook.yml -i inventory/dev
+    ansible-playbook playbooks/playbook.yml -i inventory/vagrant
     # or if the playbook file is executable and starts with `#!/usr/bin/env ansible-playbook`
-    playbooks/playbook.yml -i inventory/dev
+    playbooks/playbook.yml -i inventory/vagrant
     
 handlers should be used only to restart servicesd
 WARNING :
@@ -96,7 +95,7 @@ WARNING :
   Plus, re-running the play won't help, since the task which notifies the handler won't be executed (no state change)
   
 ### getting facts
-    ansible nginx -m setup [-a 'filter=ansible_eth*'] -i inventory/dev
+    ansible nginx -m setup [-a 'filter=ansible_eth*'] -i inventory/vagrant
 
 ### roles
 
@@ -113,7 +112,7 @@ create a new role
 
 # anisble runner with doker
 
-docker run --rm -v `pwd`:/ansible -w /ansible williamyeh/ansible:ubuntu16.04 playbooks/test.yml -i inventory/dev
+docker run --rm -v `pwd`:/ansible -w /ansible williamyeh/ansible:ubuntu16.04 playbooks/test.yml -i inventory/vagrant
 
 
 

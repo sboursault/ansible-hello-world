@@ -1,7 +1,7 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: Configure webserver with nginx and tls
-  hosts: nginx
+- name: main playbook
+  hosts: server1
   become: True
 
   vars:
@@ -11,37 +11,16 @@
     - debug: msg="updating {{ env_name }} environment"
 
   roles:
+    - role: nginx
+      nginx_config_template: nginx/nginx.conf.j2
+      index_html_template: nginx/index.html.j2
+
     - role: hello-world
       hello_world_version: 1.1
       # hello_world_port: "{{ hello_world_port }}" # causes an infinite loop
 
   tasks:
-    - name: Install nginx
-      apt: name=nginx update_cache=yes cache_valid_time=3600
-
-    - name: create directories for ssl certificates
-      file: path=/etc/nginx/ssl state=directory
-
-    - name: copy TLS key
-      copy: src=nginx/{{ item }} dest=/etc/nginx/ssl/{{ item }} owner=root mode=0600
-      with_items:
-        - nginx.key
-        - nginx.crt
-      notify: restart nginx
-
-    - name: copy nginx config file
-      template: src=nginx/nginx.conf.j2 dest=/etc/nginx/sites-available/default
-      notify: restart nginx
-
-    - name: enable configuration
-      file: dest=/etc/nginx/sites-enabled/default src=/etc/nginx/sites-available/default state=link
-      notify: restart nginx
-
-    - name: copy index.html
-      template: src=www/index.html.j2 dest=/usr/share/nginx/html/index.html mode=0644
 
   post_tasks:
 
   handlers:
-    - name: restart nginx
-      service: name=nginx state=restarted

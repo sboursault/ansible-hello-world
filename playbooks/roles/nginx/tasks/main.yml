@@ -1,0 +1,43 @@
+---
+# tasks file for nginx
+
+- name: Install nginx
+  apt: name=nginx update_cache=yes cache_valid_time=36000
+
+- name: create directories for ssl certificates
+  file: path=/etc/nginx/ssl state=directory
+
+- name: copy TLS key
+  copy: src=files/{{ item }} dest=/etc/nginx/ssl/{{ item }} owner=root mode=0600
+  with_items:
+    - nginx.key
+    - nginx.crt
+  notify: restart nginx
+#
+#- debug: var=nginx_config_template
+#- debug: var="''"
+#- debug: var="nginx_config_template is defined"
+#- debug: var="nginx_config_template is undefined"
+#- debug: var="nginx_config_template != ''"
+#- debug: var="nginx_config_template is empty"
+#- debug: var="(nginx_config_template|default('')).length"
+#- debug: var="(nginx_config_template|default('')).length == 0"
+#
+#- debug: var="nginx_config_template|default('')"
+#- debug: var="nginx_config_template|default('') is defined"
+#- debug: var="nginx_config_template|default('') != ''"
+#- debug: var="(nginx_config_template|default('')) == ''"
+
+- name: copy nginx config file
+  when: nginx_config_template != ''
+  template: src={{ nginx_config_template }} dest=/etc/nginx/sites-available/default
+  notify: restart nginx
+
+- name: enable configuration
+  file: dest=/etc/nginx/sites-enabled/default src=/etc/nginx/sites-available/default state=link
+  notify: restart nginx
+
+- name: copy index.html
+  when: index_html_template  != ''
+  template: src={{ index_html_template }} dest=/usr/share/nginx/html/index.html mode=0644
+

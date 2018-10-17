@@ -1,0 +1,16 @@
+
+server1 ansible_host=127.0.0.1 ansible_port=2222
+
+[app-servers]
+server2 ansible_host=127.0.0.1 ansible_port=2200
+server3 ansible_host=127.0.0.1 ansible_port=2201
+
+[virtual-machines]
+server1
+server2
+server3
+
+[all:vars]
+env_name=VAGRANT
+env_color=green
+user={{ ansible_user }}
