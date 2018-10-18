@@ -1,0 +1,31 @@
+#!/usr/bin/env ansible-playbook
+
+---
+- name: block demo
+  hosts: all
+  tasks:
+
+    - debug: msg="before block"
+
+    - block:
+      - name: execute task 1
+        shell: echo "task 1"
+      - name: execute task 2
+        shell: echo "task 2"
+      - name: execute task 3
+        shell: unknown_command
+      - name: execute task 4
+        shell: echo "task 4"
+
+      rescue:
+        - name: execute rescue task
+          shell: echo "revert changes"
+
+      always:
+        - name: cleaning
+          shell: echo "cleaning"
+
+    - debug: msg="after block"
+
+
+
