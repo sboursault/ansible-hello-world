@@ -17,7 +17,7 @@
 
     - role: hello-world
       hello_world_version: 1.1
-      # hello_world_port: "{{ hello_world_port }}" # causes an infinite loop
+      #hello_world_port: defined in vars section
 
   tasks:
 

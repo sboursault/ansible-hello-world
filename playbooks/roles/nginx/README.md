@@ -6,33 +6,28 @@ Install and configure nginx.
 Role Variables
 --------------
 
-| variable            | possible values | default 
-|:--------------------|-----------------|---------
-| hello_world_version | 1.0, 1.1        | 1.0     
-| hello_world_port    | any number      | 5005    
+| variable              | example values  | default 
+|:--------------------  |-----------------|---------
+| nginx_config_template | path/to/file.j2 | ""     
+| index_html_template   | path/to/file.j2 | ""    
 
-path are relative to the playbook directory
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+### with default configuration
 
+    ---
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+        - role: nginx
 
-License
--------
+### with custom configuration
 
-BSD
 
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+    ---
+    - hosts: servers
+      roles:
+        - role: nginx
+          nginx_config_template: nginx/nginx.conf.j2
+          index_html_template: nginx/index.html.j2

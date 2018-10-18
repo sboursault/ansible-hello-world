@@ -1,0 +1,20 @@
+#!/usr/bin/env ansible-playbook
+
+---
+- name: failed_when demo
+  hosts: all
+  tasks:
+
+    - name: execute unknown_command
+      shell: >
+        unknown_command
+      register: result
+      ignore_errors: True
+
+    - name: verify result
+      debug: var=result
+      failed_when: result is failed
+
+
+
+

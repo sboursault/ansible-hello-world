@@ -7,13 +7,16 @@
   hosts: all
   become: True
   tasks:
-    - name: print 'date'
+    - name: print undefined date
       debug: var=date
+
     - name: execute date
       shell: >
         date
       register: date_result
+
     - name: assign result to 'date'
       set_fact: date={{ date_result.stdout }}
-    - name: print 'date' again
+
+    - name: print defined date
       debug: var=date

@@ -21,18 +21,13 @@
 
 - name: deploy service
   copy: src=files/v{{ hello_world_version }}/app.py dest={{ hello_world_directory }} owner=vagrant mode=0700
-  # notify: restart service
+  # TODO notify: restart service
 
 - name: deploy runner
   template: src=templates/start.sh.j2 dest={{ hello_world_directory }}/start.sh owner=vagrant mode=0700
-  # notify: restart service
+  # TODO notify: restart service
 
 - name: run hello-world service
   shell: "{{ hello_world_directory }}/start.sh"
   register: result
   changed_when: '"service started" in result.stdout|default("")' # filter used for demo, but useless here
-  ignore_errors: True
-
-- name: verify result
-  debug: var=result
-  failed_when: result is failed
