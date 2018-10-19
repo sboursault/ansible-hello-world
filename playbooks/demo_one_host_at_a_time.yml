@@ -3,6 +3,8 @@
 ---
 - name: one host at a time demo
   hosts: all
+  vars:
+  vars_files:
   serial: 1
   tasks:
 

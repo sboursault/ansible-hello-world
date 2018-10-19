@@ -3,6 +3,8 @@
 ---
 - name: failed_when demo
   hosts: all
+  vars:
+  vars_files:
   tasks:
 
     - name: execute unknown_command

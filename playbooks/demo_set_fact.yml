@@ -5,7 +5,8 @@
 ---
 - name: Get date
   hosts: all
-  become: True
+  vars:
+  vars_files:
   tasks:
     - name: print undefined date
       debug: var=date

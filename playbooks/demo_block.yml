@@ -3,6 +3,8 @@
 ---
 - name: block demo
   hosts: all
+  vars:
+  vars_files:
   tasks:
 
     - debug: msg="before block"

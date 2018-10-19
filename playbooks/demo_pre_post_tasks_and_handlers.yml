@@ -3,6 +3,8 @@
 ---
 - name: pre and post tasks demol
   hosts: server1
+  vars:
+  vars_files:
 
   pre_tasks:
     - name: before
