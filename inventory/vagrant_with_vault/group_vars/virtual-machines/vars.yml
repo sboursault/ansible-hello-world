@@ -1,4 +1,0 @@
----
-ansible_user: vagrant
-ansible_ssh_pass: "{{ vagrant_password }}"
-ansible_host: 127.0.0.1

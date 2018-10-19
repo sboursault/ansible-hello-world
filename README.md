@@ -107,8 +107,13 @@ create a new role
 
 ### sensitive data with vault
 
-    # Encrypt file with vault
+    # Encrypt file with vault (password: secret)
     ansible-vault encrypt secrets.yml
+    
+    # run ansible with vault pass
+    ansible all -m ping -i inventory/vagrant --ask-vault-pass
+    # or
+    ansible all -m ping -i inventory/vagrant --vault-password-file password.txt
 
 # take aways
 
