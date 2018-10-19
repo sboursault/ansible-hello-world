@@ -1,0 +1,32 @@
+#!/usr/bin/env ansible-playbook
+
+---
+- name: pre and post tasks demol
+  hosts: server1
+
+  pre_tasks:
+    - name: before
+      shell: echo "before"
+      notify: something printed
+
+  roles:
+
+  tasks:
+    - name: a task
+      shell: echo "task"
+      notify: something printed
+
+    - name: another task
+      shell: echo "another task"
+      notify: something printed
+
+  post_tasks:
+    - name: after
+      shell: echo "after"
+      notify: something printed
+
+  handlers:
+    - name: something printed
+      debug: msg="something was printed"
+      listen: something printed
+
