@@ -12,30 +12,16 @@
   with_items:
     - nginx.key
     - nginx.crt
-  notify: restart nginx
-#
-#- debug: var=nginx_config_template
-#- debug: var="''"
-#- debug: var="nginx_config_template is defined"
-#- debug: var="nginx_config_template is undefined"
-#- debug: var="nginx_config_template != ''"
-#- debug: var="nginx_config_template is empty"
-#- debug: var="(nginx_config_template|default('')).length"
-#- debug: var="(nginx_config_template|default('')).length == 0"
-#
-#- debug: var="nginx_config_template|default('')"
-#- debug: var="nginx_config_template|default('') is defined"
-#- debug: var="nginx_config_template|default('') != ''"
-#- debug: var="(nginx_config_template|default('')) == ''"
+  notify: ssl_certs_changed
 
 - name: copy nginx config file
   when: nginx_config_template != ''
   template: src={{ nginx_config_template }} dest=/etc/nginx/sites-available/default
-  notify: restart nginx
+  notify: nginx_config_changed
 
 - name: enable configuration
   file: dest=/etc/nginx/sites-enabled/default src=/etc/nginx/sites-available/default state=link
-  notify: restart nginx
+  notify: nginx_config_changed
 
 - name: copy index.html
   when: index_html_template  != ''

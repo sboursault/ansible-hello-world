@@ -3,3 +3,6 @@
 
 - name: restart nginx
   service: name=nginx state=restarted
+  listen:
+    - ssl_certs_changed
+    - nginx_config_changed

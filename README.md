@@ -75,9 +75,6 @@ Global configuration can be stored in ansible.cfg
     # service module as root
     ansible testserver -b -m service -a "name=nginx state=restarted"
     
-
-### restart nginx
-
 ### get module doc
     ansible-doc service
 
@@ -108,7 +105,7 @@ create a new role
 ### sensitive data with vault
 
     # Encrypt file with vault (password: secret)
-    ansible-vault encrypt secrets.yml
+    ansible-vault encrypt|decrypt|view|edit|rekey secrets.yml
     
     # run ansible with vault pass
     ansible all -m ping -i inventory/vagrant --ask-vault-pass
@@ -135,3 +132,5 @@ if you get an error message like "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGE
     
     rm ~/.ssh/known_hosts
 
+# TODO
+ add role dependency (p184)
