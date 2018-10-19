@@ -34,7 +34,9 @@ Eventually, add port mapping in your vagrantfile and run `vagrant reload`
 
 ### ssh to vagrant
     vagrant ssh
-    # or
+    # or with ssh command (password: ansible)
+    ssh vagrant@127.0.0.1 -p 2222
+    # or with the privacy key
     ssh vagrant@127.0.0.1 -p 2222 -i .vagrant/machines/default/virtualbox/private_key
 
 ### get vm status
@@ -103,6 +105,11 @@ create a new role
 
     ansible-galaxy init <role>
 
+### sensitive data with vault
+
+    # Encrypt file with vault
+    ansible-vault encrypt secrets.yml
+
 # take aways
 
 “Simple things should be simple, complex things should be possible.”
@@ -115,4 +122,11 @@ create a new role
 docker run --rm -v `pwd`:/ansible -w /ansible williamyeh/ansible:ubuntu16.04 playbooks/test.yml -i inventory/vagrant
 
 
+
+
+# troubleshooting with vagrant
+
+if you get an error message like "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!"
+    
+    rm ~/.ssh/known_hosts
 
