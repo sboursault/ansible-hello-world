@@ -1,5 +1,6 @@
 ---
 # defaults file for nginx
 
+nginx_config_templates: []
 nginx_config_template: ""
 index_html_template: ""

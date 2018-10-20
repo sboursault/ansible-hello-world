@@ -2,12 +2,13 @@ from flask import Flask
 import os
 
 port=os.getenv('HELLO_WORLD_PORT', 5000)
+host=os.getenv('HELLO_WORLD_HOST', 'unknown')
 
 app = Flask(__name__)
 
 @app.route('/info')
 def info():
-    return 'v1.1'
+    return 'host: ' + host + '; version: 1.1'
 
 @app.route('/')
 def hello():

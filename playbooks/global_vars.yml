@@ -1,3 +1,3 @@
 # put here variables used by different roles, which doesn't change according to the environment
 ---
-hello_world_port: 5008
+hello_world_port: 80

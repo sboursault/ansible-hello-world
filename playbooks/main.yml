@@ -11,9 +11,10 @@
 
   roles:
     - role: nginx
-      nginx_config_template: nginx/nginx.conf.j2
+      nginx_config_templates:
+        - nginx/nginx_upstream.conf
+      nginx_config_template: nginx/nginx.conf.j2 # TODO name nginx_sites.conf
       index_html_template: nginx/index.html.j2
-
 
 - name: install and configure hello-world service
   hosts: app-servers
