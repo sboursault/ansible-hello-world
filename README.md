@@ -134,3 +134,6 @@ if you get an error message like "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGE
 
 # TODO
  add role dependency (p184)
+ test roles
+ load balancing to hello-world
+ upgrade appservers by removing them from the nginx

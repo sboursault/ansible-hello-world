@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
 export HELLO_WORLD_PORT={{ hello_world_port }}
+export HELLO_WORLD_HOST={{ ansible_eth1.ipv4.address }}
 
-if pgrep -f "hello-world/app.py" >/dev/null 2>&1;
+if pgrep -f "{{ hello_world_directory }}/app.py" >/dev/null 2>&1;
 then
   echo "already running"
 else
-  nohup python ~/hello-world/app.py &
+  nohup python {{ hello_world_directory }}/app.py &
   sleep 2
-  if pgrep -f "hello-world/app.py" >/dev/null 2>&1;
+  if pgrep -f "{{ hello_world_directory }}/app.py" >/dev/null 2>&1;
   then
     echo "service started"
   else

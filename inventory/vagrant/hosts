@@ -1,8 +1,14 @@
 
-[app-servers]
 server1 ansible_port=2222
 server2 ansible_port=2200
 server3 ansible_port=2201
+
+[nginx]
+server1
+
+[app-servers]
+server2
+server3
 
 [virtual-machines]
 server1

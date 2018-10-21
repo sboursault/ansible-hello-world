@@ -18,6 +18,7 @@
     group: vagrant
     mode: 0700
     state: directory
+  become: True
 
 - name: deploy service
   copy: src=files/v{{ hello_world_version }}/app.py dest={{ hello_world_directory }} owner=vagrant mode=0700
@@ -29,5 +30,6 @@
 
 - name: run hello-world service
   shell: "{{ hello_world_directory }}/start.sh"
+  become: True
   register: result
   changed_when: '"service started" in result.stdout|default("")' # filter used for demo, but useless here

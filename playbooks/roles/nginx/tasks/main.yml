@@ -14,6 +14,11 @@
     - nginx.crt
   notify: ssl_certs_changed
 
+- name: copy nginx config files
+  template: src={{ item }} dest=/etc/nginx/conf.d/{{ item | basename }} # a bit ugly, the .j2 extentions is kept
+  with_items: "{{ nginx_config_templates }}"
+  notify: nginx_config_changed
+
 - name: copy nginx config file
   when: nginx_config_template != ''
   template: src={{ nginx_config_template }} dest=/etc/nginx/sites-available/default

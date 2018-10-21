@@ -1,28 +1,30 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: main playbook
-  hosts: server1
-  become: True
-
-  vars:
-    hello_world_port: 5008
-
+- name: install and configure nginx
+  hosts: nginx
   vars_files:
+    - global_vars.yml
+  become: True
 
   pre_tasks:
     - debug: msg="updating {{ env_name }} environment"
 
   roles:
     - role: nginx
-      nginx_config_template: nginx/nginx.conf.j2
+      nginx_config_templates:
+        - nginx/nginx_upstream.conf
+      nginx_config_template: nginx/nginx.conf.j2 # TODO name nginx_sites.conf
       index_html_template: nginx/index.html.j2
 
+- name: install and configure hello-world service
+  hosts: app-servers
+  vars_files:
+    - global_vars.yml
+
+  pre_tasks:
+    - debug: msg="updating {{ env_name }} environment"
+
+  roles:
     - role: hello-world
       hello_world_version: 1.1
-      #hello_world_port: defined in vars section
-
-  tasks:
-
-  post_tasks:
-
-  handlers:
+      #hello_world_port: defined in global_vars.yml
