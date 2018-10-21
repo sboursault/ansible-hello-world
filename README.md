@@ -1,108 +1,107 @@
 # ansible-hello-world
 
-# TLDR;
+## Run the project
     
-    # start VMs
+Start vagrant VMs (1 nginx and 2 application servers)
+
     vagrant up
     
-    # run playbooks
-    playbooks/main.yml -i inventory/vagrant
+Install nginx and the hello world service on both application servers
+
+    playbooks/main.yml -i inventory/vagrant --vault-password-file password.txt
     
-    # watch the result
-    curl -i http://localhost:8080
-    curl -i http://localhost:8080/hello
+Call the hello world service through nginx
 
-## vagrant servers
+    curl -i http://localhost:8080/hello/info
+    
+And repeat to get the response from the other instance
 
-### create and run Vagrant VM
+    curl -i http://localhost:8080/hello/info
 
-    # create the Vagrantfile
+## vagrant cheat sheet
+
+### create the Vagrantfile
+    
     vagrant init ubuntu/trusty64
-    # start vagrant servers
-    vagrant up
-
-Eventually, add port mapping in your vagrantfile and run `vagrant reload`
-
-### get the ssh config for to connecto to the VM
-    vagrant ssh-config
     
-### stop image
-    vagrant halt
-
-### destroy image
-    vagrant destroy [--force]
-
+### frequently use commands
+    
+    vagrant up|halt|destroy|status
+    
 ### ssh to vagrant
+    
+    # get the ssh config to connect to the VM
+    vagrant ssh-config
     vagrant ssh
     # or with ssh command (password: ansible)
     ssh vagrant@127.0.0.1 -p 2222
     # or with the privacy key
     ssh vagrant@127.0.0.1 -p 2222 -i .vagrant/machines/default/virtualbox/private_key
 
-### get vm status
-    vagrant status
 
-## nginx
+## nginx cheat sheet
 
 ### create TLS certificate for the https
     openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
       -subj /CN=localhost \
       -keyout nginx/nginx.key -out nginx/nginx.crt
 
-## ansible
+## ansible cheat sheet
 
 ### intall ansible
 
     sudo pip install ansible
     
-Global configuration can be stored in ansible.cfg
-
 ### ping a host or a group
 
-    ansible testserver -m ping
-    ansible webservers -m ping
+    ansible server1 -m ping
+    ansible virtual-machines -m ping
     ansible all -m ping
     ansible '*' -m ping
 
 ### ansible modules
 
     # command module
-    ansible testserver [-m command] -a uptime
+    ansible server1 [-m command] -a uptime
     
     # apt module as root
-    ansible testserver -b -m apt -a name=nginx
+    ansible server1 -b -m apt -a name=nginx
     
     # service module as root
-    ansible testserver -b -m service -a "name=nginx state=restarted"
+    ansible server1 -b -m service -a "name=nginx state=restarted"
     
-### get module doc
+    # get module doc
     ansible-doc service
 
 ### playbooks
 
-### list tasks
+#### list tasks
     playbooks/playbook.yml -i inventory/vagrant --list-tasks
 
 #### execute a playbook
     ansible-playbook playbooks/playbook.yml -i inventory/vagrant
     # or if the playbook file is executable and starts with `#!/usr/bin/env ansible-playbook`
     playbooks/playbook.yml -i inventory/vagrant
+
+#### handlers
     
-handlers should be used only to restart servicesd
+Handlers should be used only to restart services.
+
 WARNING :
   a handler may not be triggered if an error occurs on a task.
   Plus, re-running the play won't help, since the task which notifies the handler won't be executed (no state change)
   
 ### getting facts
+
     ansible nginx -m setup [-a 'filter=ansible_eth*'] -i inventory/vagrant
 
-### roles
+#### roles
 
 create a new role
 
     ansible-galaxy init <role>
 
-### sensitive data with vault
+#### protect sensitive data with vault
 
     # Encrypt file with vault (password: secret)
     ansible-vault encrypt|decrypt|view|edit|rekey secrets.yml
@@ -111,6 +110,7 @@ create a new role
     ansible all -m ping -i inventory/vagrant --ask-vault-pass
     # or
     ansible all -m ping -i inventory/vagrant --vault-password-file password.txt
+
 
 # take aways
 
@@ -124,16 +124,21 @@ create a new role
 docker run --rm -v `pwd`:/ansible -w /ansible williamyeh/ansible:ubuntu16.04 playbooks/test.yml -i inventory/vagrant
 
 
+# Ansible troubleshooting
 
 
-# troubleshooting with vagrant
-
-if you get an error message like "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!"
+Error message like "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!"
+Can happen after reloading an image.
     
     rm ~/.ssh/known_hosts
 
+
+ 
+# Resources
+
+[Ansible up and running]: http://shop.oreilly.com/product/0636920065500.do
+
 # TODO
- add role dependency (p184)
+ add role dependency (Ansible up and running p184)
  test roles
- load balancing to hello-world
  upgrade appservers by removing them from the nginx
