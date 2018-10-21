@@ -8,7 +8,7 @@ Start vagrant VMs (1 nginx and 2 application servers)
     
 Install nginx and the hello world service on both application servers
 
-    playbooks/main.yml -i inventory/vagrant --vault-password-file password.txt
+    playbooks/main.yml -i inventory/vagrant
     
 Call the hello world service through nginx
 
@@ -83,7 +83,12 @@ And repeat to get the response from the other instance
 
 ### getting facts
 
-    ansible nginx -m setup [-a 'filter=ansible_eth*'] -i inventory/vagrant
+    ansible server1 -m setup [-a 'filter=ansible_eth*'] -i inventory/vagrant
+
+### getting hostvars
+
+    ansible server1 -m debug -a var=hostvars -i inventory/vagrant
+
 
 ### playbooks
 
@@ -119,7 +124,8 @@ create a new role
     ansible all -m ping -i inventory/vagrant --ask-vault-pass
     # or
     ansible all -m ping -i inventory/vagrant --vault-password-file password.txt
-
+    
+NB: you can define vault-password-file in ansible.cfg
 
 # take aways
 
@@ -142,6 +148,8 @@ Can happen after reloading an image.
 # Resources
 
 [Ansible up and running]: http://shop.oreilly.com/product/0636920065500.do
+
+[ansible.cfg file entries]: https://docs.ansible.com/ansible/latest/reference_appendices/config.html
 
 # TODO
  add role dependency (Ansible up and running p184)
