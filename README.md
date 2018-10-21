@@ -24,7 +24,7 @@ And repeat to get the response from the other instance
     
     vagrant init ubuntu/trusty64
     
-### frequently use commands
+### frequently used commands
     
     vagrant up|halt|destroy|status
     
@@ -32,6 +32,7 @@ And repeat to get the response from the other instance
     
     # get the ssh config to connect to the VM
     vagrant ssh-config
+    # connect with vagrant command
     vagrant ssh
     # or with ssh command (password: ansible)
     ssh vagrant@127.0.0.1 -p 2222
@@ -52,14 +53,21 @@ And repeat to get the response from the other instance
 
     sudo pip install ansible
     
-### ping a host or a group
+    
+    
+### run a task on a host or a group
 
-    ansible server1 -m ping
-    ansible virtual-machines -m ping
-    ansible all -m ping
-    ansible '*' -m ping
+    ansible server1 -m ping -i inventory/vagrant
+    ansible virtual-machines -m ping -i inventory/vagrant
+    ansible all -m ping -i inventory/vagrant
+    ansible '*' -m ping -i inventory/vagrant
+    
+### run with docker
 
-### ansible modules
+    docker run --rm -v `pwd`:/ansible -w /ansible williamyeh/ansible:ubuntu16.04 \
+      ansible server1 -m ping -i inventory/vagrant
+
+### modules
 
     # command module
     ansible server1 [-m command] -a uptime
@@ -72,6 +80,10 @@ And repeat to get the response from the other instance
     
     # get module doc
     ansible-doc service
+
+### getting facts
+
+    ansible nginx -m setup [-a 'filter=ansible_eth*'] -i inventory/vagrant
 
 ### playbooks
 
@@ -91,9 +103,6 @@ WARNING :
   a handler may not be triggered if an error occurs on a task.
   Plus, re-running the play won't help, since the task which notifies the handler won't be executed (no state change)
   
-### getting facts
-
-    ansible nginx -m setup [-a 'filter=ansible_eth*'] -i inventory/vagrant
 
 #### roles
 
@@ -118,10 +127,6 @@ create a new role
 ― Alan Kay
 
 
-
-# anisble runner with doker
-
-docker run --rm -v `pwd`:/ansible -w /ansible williamyeh/ansible:ubuntu16.04 playbooks/test.yml -i inventory/vagrant
 
 
 # Ansible troubleshooting
