@@ -14,8 +14,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "vagrant1" do |node|
     node.vm.box = "ubuntu/trusty64"
     node.vm.network "private_network", ip: "192.168.33.11"
-    #node.vm.network "forwarded_port", guest: 80, host: 8080
-    #node.vm.network "forwarded_port", guest: 443, host: 8443
+    node.vm.network "forwarded_port", guest: 80, host: 8080
+    node.vm.network "forwarded_port", guest: 443, host: 8443
   end
 
   config.vm.define "vagrant2" do |node|
