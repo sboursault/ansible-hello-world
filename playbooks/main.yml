@@ -16,6 +16,10 @@
       nginx_config_template: nginx/nginx.conf.j2 # TODO name nginx_sites.conf
       index_html_template: nginx/index.html.j2
 
+  post_tasks:
+    - name: install load_balancer script
+      copy: src=nginx/load_balancer dest=/opt/load_balancer owner=vagrant mode=0700
+
 - name: install and configure hello-world service
   hosts: app-servers
   vars_files:

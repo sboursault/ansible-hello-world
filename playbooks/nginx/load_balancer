@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -e # stop script on error
+#set -x # print commands
+
+USAGE="usage: $(basename "$0") add|remove IP[:PORT]"
+
+if [[ "$1" !=  "add" ]] && [[ "$1" !=  "remove" ]] || [ $# != 2 ]; then
+  echo $USAGE
+  exit 1
+fi
+
+INSTANCE=$2
+INSTANCE_CONFIG_DIR=/etc/nginx/app-server-instances
+INSTANCE_FILE=$LOAD_BALANCER_INSTANCE_CONFIG_DIR/`echo $INSTANCE | sed 's/:/-/'`.conf
+
+if [[ "$1" ==  "add" ]]; then
+  head -n -1 /etc/nginx/conf.d/nginx_upstream.conf | grep -v "$INSTANCE;" > temp.txt
+  echo "    server $INSTANCE;" >> temp.txt
+  echo "}" >> temp.txt
+  mv temp.txt /etc/nginx/conf.d/nginx_upstream.conf
+  service nginx restart
+  echo "instance $2 added to load balancer"
+  exit 0
+fi
+
+if [[ "$1" ==  "remove" ]]; then
+
+
+  exit 0
+fi

@@ -32,4 +32,10 @@
   shell: "{{ hello_world_directory }}/start.sh"
   become: True
   register: result
-  changed_when: '"service started" in result.stdout|default("")' # filter used for demo, but useless here
+  changed_when: '"service started" in result.stdout|default("")'
+
+#- name: add to load balancer
+#  local_action: command sshpass -p vagrant ssh -o StrictHostKeyChecking=no vagrant@192.168.33.11 "sudo /opt/load_balancer add {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}"
+
+
+
