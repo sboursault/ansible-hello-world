@@ -1,5 +1,10 @@
 #!/usr/bin/env ansible-playbook
 ---
+- name: Gather facts from app-servers
+  hosts: app-servers
+  tasks: [ ]
+  # force gathering ansible_eth1 on application servers, required to define the nginx upstream
+
 - name: install and configure nginx
   hosts: nginx
   vars_files:
