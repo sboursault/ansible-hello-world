@@ -3,4 +3,3 @@
 
 nginx_config_templates: []
 nginx_sites_template: ""
-index_html_template: ""

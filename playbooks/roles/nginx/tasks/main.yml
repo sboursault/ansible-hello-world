@@ -28,7 +28,3 @@
   file: dest=/etc/nginx/sites-enabled/default src=/etc/nginx/sites-available/default state=link
   notify: nginx_config_changed
 
-- name: copy index.html
-  when: index_html_template  != ''
-  template: src={{ index_html_template }} dest=/usr/share/nginx/html/index.html mode=0644
-

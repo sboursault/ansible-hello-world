@@ -5,35 +5,30 @@
   tasks: [ ]
   # force gathering ansible_eth1 on application servers, required to define the nginx upstream
 
+
 - name: install and configure nginx
   hosts: nginx
   vars_files:
     - global_vars.yml
   become: True
 
-  pre_tasks:
-    - debug: msg="updating {{ env_name }} environment"
-
   roles:
     - role: nginx
       nginx_config_templates:
         - nginx/nginx_upstream.conf
       nginx_sites_template: nginx/nginx_sites.conf.j2
-      index_html_template: nginx/index.html.j2
 
   post_tasks:
     - name: install load_balancer script
       copy: src=nginx/load_balancer dest=/opt/load_balancer owner=vagrant mode=0700
+
 
 - name: install and configure hello-world service
   hosts: app-servers
   vars_files:
     - global_vars.yml
 
-  pre_tasks:
-    - debug: msg="updating {{ env_name }} environment"
-
   roles:
     - role: hello-world
-      hello_world_version: 1.1
+      hello_world_version: 1.0
       #hello_world_port: defined in global_vars.yml
