@@ -1,30 +1,30 @@
 ---
 # tasks file for nginx
 
-- name: Install nginx
-  apt: name=nginx update_cache=yes cache_valid_time=36000
+- block:
+    - name: Install nginx
+      apt: name=nginx update_cache=yes cache_valid_time=36000
 
-- name: create directories for ssl certificates
-  file: path=/etc/nginx/ssl state=directory
+    - name: create directories for ssl certificates
+      file: path=/etc/nginx/ssl state=directory
 
-- name: copy TLS key
-  copy: src=files/{{ item }} dest=/etc/nginx/ssl/{{ item }} owner=root mode=0600
-  with_items:
-    - nginx.key
-    - nginx.crt
-  notify: ssl_certs_changed
+    - name: copy TLS key
+      copy: src=files/{{ item }} dest=/etc/nginx/ssl/{{ item }} owner=root mode=0600
+      with_items:
+        - nginx.key
+        - nginx.crt
+      notify: ssl_certs_changed
 
-- name: copy nginx config files
-  template: src={{ item }} dest=/etc/nginx/conf.d/{{ item | basename }} # a bit ugly, the .j2 extentions is kept
-  with_items: "{{ nginx_config_templates }}"
-  notify: nginx_config_changed
+    - name: copy nginx config files
+      template: src={{ item }} dest=/etc/nginx/conf.d/{{ (item | basename | splitext)[0] }} # to verify
+      with_items: "{{ nginx_config_templates }}"
+      notify: nginx_config_changed
 
-- name: copy nginx sites config
-  when: nginx_sites_template != ''
-  template: src={{ nginx_sites_template }} dest=/etc/nginx/sites-available/default
-  notify: nginx_config_changed
+    - name: copy nginx sites config
+      when: nginx_sites_template != ''
+      template: src={{ nginx_sites_template }} dest=/etc/nginx/sites-available/default
+      notify: nginx_config_changed
 
-- name: enable configuration
-  file: dest=/etc/nginx/sites-enabled/default src=/etc/nginx/sites-available/default state=link
-  notify: nginx_config_changed
+  become: True
+  become_user: root
 

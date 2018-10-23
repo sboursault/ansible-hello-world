@@ -1,6 +1,7 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: Gather facts from app-servers
+
+- name: gather facts from app-servers
   hosts: app-servers
   tasks: [ ]
   # force gathering ansible_eth1 on application servers, required to define the nginx upstream
@@ -10,24 +11,21 @@
   hosts: nginx
   vars_files:
     - global_vars.yml
-  become: True
-
   roles:
     - role: nginx
       nginx_config_templates:
-        - nginx/nginx_upstream.conf
+        - nginx/nginx_upstream.conf.j2
       nginx_sites_template: nginx/nginx_sites.conf.j2
-
-  post_tasks:
-    - name: install load_balancer script
-      copy: src=nginx/load_balancer dest=/opt/load_balancer owner=vagrant mode=0700
+  # move to upgrade playbook
+  #post_tasks:
+  #  - name: install load_balancer script
+  #    copy: src=nginx/load_balancer dest=/opt/load_balancer owner=vagrant mode=0700
 
 
 - name: install and configure hello-world service
   hosts: app-servers
   vars_files:
     - global_vars.yml
-
   roles:
     - role: hello-world
       hello_world_version: 1.0
