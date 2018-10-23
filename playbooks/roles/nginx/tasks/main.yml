@@ -19,9 +19,9 @@
   with_items: "{{ nginx_config_templates }}"
   notify: nginx_config_changed
 
-- name: copy nginx config file
-  when: nginx_config_template != ''
-  template: src={{ nginx_config_template }} dest=/etc/nginx/sites-available/default
+- name: copy nginx sites config
+  when: nginx_sites_template != ''
+  template: src={{ nginx_sites_template }} dest=/etc/nginx/sites-available/default
   notify: nginx_config_changed
 
 - name: enable configuration

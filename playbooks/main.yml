@@ -18,7 +18,7 @@
     - role: nginx
       nginx_config_templates:
         - nginx/nginx_upstream.conf
-      nginx_config_template: nginx/nginx.conf.j2 # TODO name nginx_sites.conf
+      nginx_sites_template: nginx/nginx_sites.conf.j2
       index_html_template: nginx/index.html.j2
 
   post_tasks:
