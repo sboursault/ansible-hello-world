@@ -13,22 +13,25 @@
     - name: create directory
       file:
         path: "{{ hello_world_directory }}"
-        owner: vagrant
-        group: vagrant
-        mode: 0700
+        mode: 0744
         state: directory
 
     - name: deploy service
-      copy: src={{ item }} dest={{ hello_world_directory }}/{{ item | basename }} owner=vagrant mode=0700
+      copy: src={{ item }} dest={{ hello_world_directory }}/{{ item | basename }} mode=0744
       with_items:
         - files/v{{ hello_world_version }}/app.py
         - files/start.sh
         - files/stop.sh
-      # TODO notify: restart service
+        - files/restart.sh
+      notify: hello-world_binaries_changed
 
     - name: configure service
-      template: src=templates/config.j2 dest={{ hello_world_directory }}/config owner=vagrant mode=0700
-      # TODO notify: restart service
+      template: src=templates/config.j2 dest={{ hello_world_directory }}/config mode=0644
+      notify: hello-world_config_changed
+
+    - name: flush handlers
+      meta: flush_handlers
+      # flushing handlers here ensures the service won't get started twice on the first execution
 
     - name: run hello-world service
       shell: "{{ hello_world_directory }}/start.sh"
