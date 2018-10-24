@@ -1,38 +1,42 @@
 ---
 # tasks file for hello-world
 
-- name: install apt packages
-  apt: pkg=python-pip update_cache=yes cache_valid_time=86400
+- block:
+    - name: install apt packages
+      apt: pkg=python-pip update_cache=yes cache_valid_time=86400
+
+    - name: install python libraries
+      pip: name={{ item }}
+      with_lines:
+        - cat {{ role_path }}/files/v{{ hello_world_version }}/dependencies.txt # command executed on the control machine
+
+    - name: create directory
+      file:
+        path: "{{ hello_world_directory }}"
+        owner: vagrant
+        group: vagrant
+        mode: 0700
+        state: directory
+
+    - name: deploy service
+      copy: src={{ item }} dest={{ hello_world_directory }}/{{ item | basename }} owner=vagrant mode=0700
+      with_items:
+        - files/v{{ hello_world_version }}/app.py
+        - files/start.sh
+        - files/stop.sh
+      # TODO notify: restart service
+
+    - name: configure service
+      template: src=templates/config.j2 dest={{ hello_world_directory }}/config owner=vagrant mode=0700
+      # TODO notify: restart service
+
+    - name: run hello-world service
+      shell: "{{ hello_world_directory }}/start.sh"
+      register: result
+      changed_when: '"service started" in result.stdout|default("")'
+
   become: True
-
-- name: install python libraries
-  pip: name={{ item }}
-  become: True
-  with_lines:
-    - cat {{ role_path }}/files/v{{ hello_world_version }}/dependencies.txt # command executed on the control machine
-
-- name: create directory
-  file:
-    path: "{{ hello_world_directory }}"
-    owner: vagrant
-    group: vagrant
-    mode: 0700
-    state: directory
-  become: True
-
-- name: deploy service
-  copy: src=files/v{{ hello_world_version }}/app.py dest={{ hello_world_directory }} owner=vagrant mode=0700
-  # TODO notify: restart service
-
-- name: deploy runner
-  template: src=templates/start.sh.j2 dest={{ hello_world_directory }}/start.sh owner=vagrant mode=0700
-  # TODO notify: restart service
-
-- name: run hello-world service
-  shell: "{{ hello_world_directory }}/start.sh"
-  become: True
-  register: result
-  changed_when: '"service started" in result.stdout|default("")'
+  become_user: root
 
 #- name: add to load balancer
 #  local_action: command sshpass -p vagrant ssh -o StrictHostKeyChecking=no vagrant@192.168.33.11 "sudo /opt/load_balancer add {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}"

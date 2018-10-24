@@ -16,7 +16,7 @@
       notify: ssl_certs_changed
 
     - name: copy nginx config files
-      template: src={{ item }} dest=/etc/nginx/conf.d/{{ (item | basename | splitext)[0] }} # to verify
+      template: src={{ item }} dest=/etc/nginx/conf.d/{{ (item | basename | splitext)[0] }}
       with_items: "{{ nginx_config_templates }}"
       notify: nginx_config_changed
 

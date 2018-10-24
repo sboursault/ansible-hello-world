@@ -6,3 +6,5 @@
   listen:
     - ssl_certs_changed
     - nginx_config_changed
+  become: True
+  become_user: root
