@@ -16,10 +16,6 @@
       nginx_config_templates:
         - nginx/nginx_upstream.conf.j2
       nginx_sites_template: nginx/nginx_sites.conf.j2
-  # move to upgrade playbook
-  #post_tasks:
-  #  - name: install load_balancer script
-  #    copy: src=nginx/load_balancer dest=/opt/load_balancer owner=vagrant mode=0700
 
 
 - name: install and configure hello-world service

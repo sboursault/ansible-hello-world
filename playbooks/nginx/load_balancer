@@ -20,12 +20,14 @@ if [[ "$1" ==  "add" ]]; then
   echo "}" >> temp.txt
   mv temp.txt /etc/nginx/conf.d/nginx_upstream.conf
   service nginx restart
-  echo "instance $2 added to load balancer"
+  echo "instance added to load balancer"
   exit 0
 fi
 
 if [[ "$1" ==  "remove" ]]; then
-
-
+  grep -v "$INSTANCE;" /etc/nginx/conf.d/nginx_upstream.conf > temp.txt
+  mv temp.txt /etc/nginx/conf.d/nginx_upstream.conf
+  service nginx restart
+  echo "instance removed from load balancer"
   exit 0
 fi

@@ -40,9 +40,3 @@
 
   become: True
   become_user: root
-
-#- name: add to load balancer
-#  local_action: command sshpass -p vagrant ssh -o StrictHostKeyChecking=no vagrant@192.168.33.11 "sudo /opt/load_balancer add {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}"
-
-
-
