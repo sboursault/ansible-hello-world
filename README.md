@@ -57,7 +57,7 @@ And repeat to get the response from the other instance
     
 ### run a task on a host or a group
 
-    ansible server1 -m ping -i inventory/vagrant
+    ansible app-server1 -m ping -i inventory/vagrant
     ansible virtual-machines -m ping -i inventory/vagrant
     ansible all -m ping -i inventory/vagrant
     ansible '*' -m ping -i inventory/vagrant
@@ -65,29 +65,29 @@ And repeat to get the response from the other instance
 ### run with docker
 
     docker run --rm -v `pwd`:/ansible -w /ansible williamyeh/ansible:ubuntu16.04 \
-      ansible server1 -m ping -i inventory/vagrant
+      ansible app-server1 -m ping -i inventory/vagrant
 
 ### modules
 
     # command module
-    ansible server1 [-m command] -a uptime
+    ansible app-server1 [-m command] -a uptime
     
     # apt module as root
-    ansible server1 -b -m apt -a name=nginx
+    ansible app-server1 -b -m apt -a name=nginx
     
     # service module as root
-    ansible server1 -b -m service -a "name=nginx state=restarted"
+    ansible app-server1 -b -m service -a "name=nginx state=restarted"
     
     # get module doc
     ansible-doc service
 
 ### getting facts
 
-    ansible server1 -m setup [-a 'filter=ansible_eth*'] -i inventory/vagrant
+    ansible app-server1 -m setup [-a 'filter=ansible_eth*'] -i inventory/vagrant
 
 ### getting hostvars
 
-    ansible server1 -m debug -a var=hostvars -i inventory/vagrant
+    ansible app-server1 -m debug -a var=hostvars -i inventory/vagrant
 
 
 ### playbooks

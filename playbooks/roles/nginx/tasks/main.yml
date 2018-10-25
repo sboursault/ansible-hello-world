@@ -2,20 +2,8 @@
 # tasks file for nginx
 
 - block:
-    - name: get date
-      shell: date
-      register: result
-
-    - debug: var=result
-
     - name: Install nginx
-      apt: name=nginx update_cache=yes cache_valid_time=36000
-
-    - name: get date
-      shell: date
-      register: result
-
-    - debug: var=result
+      apt: name=nginx update_cache=no
 
     - name: create directories for ssl certificates
       file: path=/etc/nginx/ssl state=directory

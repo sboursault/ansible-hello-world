@@ -1,21 +1,18 @@
 
-server1 ansible_port=2222
-server2 ansible_port=2200
-server3 ansible_port=2201
-
-[nginx]
-server1
+reverse-proxy  ansible_host=127.0.0.1  ansible_port=2222  ansible_user=vagrant  ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
+app-server1    ansible_host=127.0.0.1  ansible_port=2200  ansible_user=vagrant  ansible_ssh_pass="{{ vagrant_password }}"
+app-server2    ansible_host=127.0.0.1  ansible_port=2201  ansible_user=vagrant  ansible_ssh_pass="{{ vagrant_password }}"
 
 [app-servers]
-server2
-server3
+app-server1
+app-server2
 
 [virtual-machines]
-server1
-server2
-server3
+reverse-proxy
+app-server1
+app-server2
 
 [all:vars]
 env_name=VAGRANT
 env_color=green
-user={{ ansible_user }}
+

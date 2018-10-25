@@ -8,7 +8,7 @@
 
 
 - name: install and configure nginx
-  hosts: nginx
+  hosts: reverse-proxy
   vars_files:
     - global_vars.yml
   roles:

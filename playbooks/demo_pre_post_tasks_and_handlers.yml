@@ -2,7 +2,7 @@
 
 ---
 - name: pre and post tasks demol
-  hosts: server1
+  hosts: app-server1
   vars:
   vars_files:
 

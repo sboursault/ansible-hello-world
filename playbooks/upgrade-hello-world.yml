@@ -21,7 +21,7 @@
 
   pre_tasks:
     - name: remove from load balancer
-      delegate_to: server1
+      delegate_to: reverse-proxy
       command: /opt/load_balancer remove {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}
 
   roles:
@@ -31,5 +31,5 @@
 
   post_tasks:
     - name: add to load balancer
-      delegate_to: server1
+      delegate_to: reverse-proxy
       command: /opt/load_balancer add {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}
