@@ -2,7 +2,7 @@
 ---
 
 - name: install load_balancer script
-  hosts: nginx
+  hosts: reverse-proxy
   become: True
   become_user: root
 
