@@ -7,7 +7,6 @@ Prerequisites : vagrant and ansible installed
 Start vagrant VMs (1 nginx and 2 application servers)
 
     vagrant up
-    TODO rm -Rf ...
     
 Install nginx and the hello world service on both application servers
 
@@ -27,16 +26,16 @@ Upgrade the hello-service on one instance
     # install the load balancer script
     playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit reverse-proxy
     # remove app-server1 from load balancer and upgrade
-    playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit app-server1 --skip-tags finalize
+    playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit app-server1 --tags prepare
 
 Verify the deployment
 
-    curl -i http://localhost:8080/hello/info # no response from app-server1
-    curl -i http://localhost:8080/app-server1/hello/info # response with the upgraded version
+    curl -i http://localhost:8080/hello/info # no more response from app-server1
+    curl -i http://localhost:8080/app-server1/hello/info # verify the upgraded instance
 
 Finalize the deployment on both instance
 
-    playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit app-server1
+    playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit app-server1 --tags finalize
     playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit app-server2
 
 
@@ -155,8 +154,6 @@ NB: you can define vault-password-file in ansible.cfg
 ― Alan Kay
 
 
-
-
 # Ansible troubleshooting
 
 
@@ -166,7 +163,6 @@ Can happen after reloading an image.
     rm ~/.ssh/known_hosts
 
 
- 
 # Resources
 
 [Ansible up and running]: http://shop.oreilly.com/product/0636920065500.do
@@ -177,4 +173,3 @@ Can happen after reloading an image.
  add role dependency (Ansible up and running p184)
  test roles
  read ansible tips
- invert finalize (should not be the default behaviour)

@@ -21,6 +21,7 @@
 
   pre_tasks:
     - name: remove from load balancer
+      tags: 'prepare'
       delegate_to: reverse-proxy
       command: /opt/load_balancer remove {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}
       register: result
@@ -28,13 +29,14 @@
 
   roles:
     - role: hello-world
+      tags: 'prepare'
       hello_world_version: 1.1
       #hello_world_port: defined in global_vars.yml
 
   post_tasks:
     - name: add to load balancer
+      tags: 'finalize'
       delegate_to: reverse-proxy
       command: /opt/load_balancer add {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}
-      tags: finalize
       register: result
       changed_when: '"instance added" in result.stdout'
