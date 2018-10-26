@@ -11,23 +11,32 @@ if [[ "$1" !=  "add" ]] && [[ "$1" !=  "remove" ]] || [ $# != 2 ]; then
 fi
 
 INSTANCE=$2
-INSTANCE_CONFIG_DIR=/etc/nginx/app-server-instances
-INSTANCE_FILE=$LOAD_BALANCER_INSTANCE_CONFIG_DIR/`echo $INSTANCE | sed 's/:/-/'`.conf
+UPSTREAM_CONFIG_FILE=/etc/nginx/conf.d/nginx_upstream.conf
 
 if [[ "$1" ==  "add" ]]; then
-  head -n -1 /etc/nginx/conf.d/nginx_upstream.conf | grep -v "$INSTANCE;" > temp.txt
-  echo "    server $INSTANCE;" >> temp.txt
-  echo "}" >> temp.txt
-  mv temp.txt /etc/nginx/conf.d/nginx_upstream.conf
-  service nginx restart
-  echo "instance added to load balancer"
-  exit 0
+  if grep -q "$INSTANCE;" $UPSTREAM_CONFIG_FILE; then
+    echo "instance already present"
+    exit 0
+  else
+    head -n -1 $UPSTREAM_CONFIG_FILE | grep -v "$INSTANCE;" > temp.txt
+    echo "    server $INSTANCE;" >> temp.txt
+    echo "}" >> temp.txt
+    mv temp.txt $UPSTREAM_CONFIG_FILE
+    service nginx restart
+    echo "instance added to load balancer"
+    exit 0
+  fi
 fi
 
 if [[ "$1" ==  "remove" ]]; then
-  grep -v "$INSTANCE;" /etc/nginx/conf.d/nginx_upstream.conf > temp.txt
-  mv temp.txt /etc/nginx/conf.d/nginx_upstream.conf
-  service nginx restart
-  echo "instance removed from load balancer"
-  exit 0
+  if grep -q "$INSTANCE;" $UPSTREAM_CONFIG_FILE; then
+    grep -v "$INSTANCE;" $UPSTREAM_CONFIG_FILE > temp.txt
+    mv temp.txt $UPSTREAM_CONFIG_FILE
+    service nginx restart
+    echo "instance removed from load balancer"
+    exit 0
+  else
+    echo "instance not found"
+    exit 0
+  fi
 fi

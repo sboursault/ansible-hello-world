@@ -23,6 +23,8 @@
     - name: remove from load balancer
       delegate_to: reverse-proxy
       command: /opt/load_balancer remove {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}
+      register: result
+      changed_when: '"instance removed" in result.stdout'
 
   roles:
     - role: hello-world
@@ -33,3 +35,6 @@
     - name: add to load balancer
       delegate_to: reverse-proxy
       command: /opt/load_balancer add {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}
+      tags: finalize
+      register: result
+      changed_when: '"instance added" in result.stdout'

@@ -1,22 +1,44 @@
 # ansible-hello-world
 
 ## Run the project
+
+Prerequisites : vagrant and ansible installed
     
 Start vagrant VMs (1 nginx and 2 application servers)
 
     vagrant up
+    TODO rm -Rf ...
     
 Install nginx and the hello world service on both application servers
 
     playbooks/main.yml -i inventory/vagrant
     
-Call the hello world service through nginx
+Call the hello-world service through nginx
 
     curl -i http://localhost:8080/hello/info
     
 And repeat to get the response from the other instance
 
     curl -i http://localhost:8080/hello/info
+    
+    
+Upgrade the hello-service on one instance
+
+    # install the load balancer script
+    playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit reverse-proxy
+    # remove app-server1 from load balancer and upgrade
+    playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit app-server1 --skip-tags finalize
+
+Verify the deployment
+
+    curl -i http://localhost:8080/hello/info # no response from app-server1
+    curl -i http://localhost:8080/app-server1/hello/info # response with the upgraded version
+
+Finalize the deployment on both instance
+
+    playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit app-server1
+    playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit app-server2
+
 
 ## vagrant cheat sheet
 
@@ -154,4 +176,5 @@ Can happen after reloading an image.
 # TODO
  add role dependency (Ansible up and running p184)
  test roles
- upgrade appservers by removing them from the nginx
+ read ansible tips
+ invert finalize (should not be the default behaviour)
