@@ -135,6 +135,14 @@ WARNING :
 create a new role
 
     ansible-galaxy init <role>
+    
+test your roles with molecule
+
+    sudo pip install molecule
+    sudo pip install docker-py
+    
+    molecule init role -r hello-world -d docker
+    molecule [--debug] test
 
 #### protect sensitive data with vault
 
@@ -168,6 +176,8 @@ Can happen after reloading an image.
 [Ansible up and running]: http://shop.oreilly.com/product/0636920065500.do
 
 [ansible.cfg file entries]: https://docs.ansible.com/ansible/latest/reference_appendices/config.html
+
+https://www.jeffgeerling.com/blog/2018/testing-your-ansible-roles-molecule
 
 # TODO
  add role dependency (Ansible up and running p184)

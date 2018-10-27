@@ -7,3 +7,4 @@
 
 # ansible
 *.retry
+__pycache__

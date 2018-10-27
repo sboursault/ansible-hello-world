@@ -8,7 +8,7 @@
     - name: install python libraries
       pip: name={{ item }}
       with_lines:
-        - cat {{ role_path }}/files/v{{ hello_world_version }}/dependencies.txt # command executed on the control machine
+        - cat {{ role_path }}/files/v{{ hello_world_version }}/dependencies.txt  # command executed on the control machine
 
     - name: create directory
       file:
@@ -34,9 +34,9 @@
       # flushing handlers here ensures the service won't get started twice on the first execution
 
     - name: run hello-world service
-      shell: "{{ hello_world_directory }}/start.sh"
+      command: "{{ hello_world_directory }}/start.sh"
       register: result
       changed_when: '"service started" in result.stdout|default("")'
 
-  become: True
+  become: true
   become_user: root

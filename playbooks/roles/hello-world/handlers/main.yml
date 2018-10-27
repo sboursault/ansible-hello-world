@@ -2,10 +2,9 @@
 # handlers file for hello-world
 
 - name: restart hello-world service
-  shell: "{{ hello_world_directory }}/restart.sh"
+  command: "{{ hello_world_directory }}/restart.sh"
   listen:
     - hello-world_binaries_changed
     - hello-world_config_changed
-  become: True
+  become: true
   become_user: root
-
