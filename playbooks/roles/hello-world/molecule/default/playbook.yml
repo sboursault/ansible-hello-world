@@ -3,3 +3,14 @@
   hosts: all
   roles:
     - role: hello-world
+
+  post_tasks:
+    - name: call hello world
+      uri: url=http://localhost:5005/info return_content=true
+      register: result
+
+    - name: verify result
+      assert:
+        that:
+          - "result.status == 200"
+          - '"version: 1.0" in result.content'
