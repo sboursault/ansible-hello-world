@@ -9,3 +9,4 @@ rules:
     level: error
   line-length: disable
   empty-lines: disable
+  new-line-at-end-of-file: disable

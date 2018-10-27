@@ -8,6 +8,7 @@ lint:
 platforms:
   - name: instance
     image: geerlingguy/docker-ubuntu1604-ansible
+    pre_build_image: true  # avoid building an image from Dockerfile.j2
 provisioner:
   name: ansible
   lint:
