@@ -143,6 +143,11 @@ test your roles with molecule
     
     molecule init role -r hello-world -d docker
     molecule [--debug] test
+    
+_[...] don’t unit test your playbook.
+Ansible describes states of resources declaratively, so you don’t have to.
+If there are cases where you want to be sure of something though, that’s great, and things like stat/assert are great go-to modules for that purpose.
+(https://docs.ansible.com/ansible/latest/reference_appendices/test_strategies.html)_
 
 #### protect sensitive data with vault
 

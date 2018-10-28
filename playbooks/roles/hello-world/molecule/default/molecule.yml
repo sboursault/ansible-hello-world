@@ -1,21 +1,19 @@
 ---
-dependency:
-  name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
 platforms:
   - name: instance
     image: geerlingguy/docker-ubuntu1604-ansible
     pre_build_image: true  # avoid building an image from Dockerfile.j2
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
 scenario:
   name: default
-verifier:
-  name: testinfra
-  lint:
-    name: flake8
+  test_sequence:
+    - lint
+    - destroy
+    - syntax
+    - create
+    - converge
+    - idempotence
+    - destroy
