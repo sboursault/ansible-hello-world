@@ -14,8 +14,6 @@
 - name: install and configure hello-world service
   hosts: app-servers
   serial: 1 # run one host at a time
-  vars_files:
-    - global_vars.yml
   become: True
   become_user: root
 
@@ -31,7 +29,7 @@
     - role: hello-world
       tags: 'prepare'
       hello_world_version: 1.1
-      #hello_world_port: defined in global_vars.yml
+      #hello_world_port: defined in group_vars
 
   tasks:
     # we may run some health checks here

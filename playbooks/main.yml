@@ -9,8 +9,6 @@
 
 - name: install and configure nginx
   hosts: reverse-proxy
-  vars_files:
-    - global_vars.yml
   roles:
     - role: nginx
       nginx_config_templates:
@@ -20,9 +18,7 @@
 
 - name: install and configure hello-world service
   hosts: app-servers
-  vars_files:
-    - global_vars.yml
   roles:
     - role: hello-world
       hello_world_version: 1.0
-      #hello_world_port: defined in global_vars.yml
+      #hello_world_port: defined group vars

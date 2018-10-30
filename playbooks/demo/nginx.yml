@@ -1,0 +1,34 @@
+#!/usr/bin/env ansible-playbook
+
+---
+- name: install nginx with
+  hosts: reverse-proxy
+  become: true
+  become_user: root
+  tasks:
+    - name: Install nginx
+      apt: name=nginx update_cache=no
+
+    - name: create directories for ssl certificates
+      file: path=/etc/nginx/ssl state=directory
+
+    - name: copy TLS key
+      copy: src=files/{{ item }} dest=/etc/nginx/ssl/{{ item }} owner=root mode=0600
+      with_items:
+        - nginx.key
+        - nginx.crt
+      notify: ssl_certs_changed
+
+    - name: copy nginx sites config
+      copy: src=files/nginx_sites.conf dest=/etc/nginx/sites-available/default
+      notify: nginx_config_changed
+
+    - name: copy index.html
+      template: src=files/index.html.j2 dest=/usr/share/nginx/html/index.html mode=0644
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
+      listen:
+        - ssl_certs_changed
+        - nginx_config_changed
