@@ -1,43 +1,30 @@
 #!/usr/bin/env ansible-playbook
 ---
 
-- name: install load_balancer script
-  hosts: reverse-proxy
-  become: True
-  become_user: root
-
-  tasks:
-    - name: copy script
-      copy: src=nginx/load_balancer dest=/opt/load_balancer mode=0744
-
-
 - name: install and configure hello-world service
   hosts: app-servers
   serial: 1 # run one host at a time
-  become: True
+  become: true
   become_user: root
 
   pre_tasks:
     - name: remove from load balancer
-      tags: 'prepare'
       delegate_to: reverse-proxy
       command: /opt/load_balancer remove {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}
       register: result
       changed_when: '"instance removed" in result.stdout'
+      tags: 'prepare'
 
   roles:
     - role: hello-world
-      tags: 'prepare'
       hello_world_version: 1.1
       #hello_world_port: defined in group_vars
-
-  tasks:
-    # we may run some health checks here
+      tags: 'prepare'
 
   post_tasks:
     - name: add to load balancer
-      tags: 'finalize'
       delegate_to: reverse-proxy
       command: /opt/load_balancer add {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}
       register: result
       changed_when: '"instance added" in result.stdout'
+      tags: 'finalize'

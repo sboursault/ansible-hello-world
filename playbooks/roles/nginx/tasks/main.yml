@@ -25,6 +25,6 @@
       template: src={{ nginx_sites_template }} dest=/etc/nginx/sites-available/default
       notify: nginx_config_changed
 
-  become: True
+  become: true
   become_user: root
 

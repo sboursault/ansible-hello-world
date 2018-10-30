@@ -20,11 +20,8 @@ And repeat to get the response from the other instance
 
     curl -i http://localhost:8080/hello/info
     
-    
 Upgrade the hello-service on one instance
 
-    # install the load balancer script
-    playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit reverse-proxy
     # remove app-server1 from load balancer and upgrade
     playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit app-server1 --tags prepare
 
