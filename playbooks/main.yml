@@ -4,7 +4,7 @@
 - name: gather facts from app-servers
   hosts: app-servers
   tasks: [ ]
-  # force gathering ansible_eth1 on application servers, required to define the nginx upstream
+  # force gathering facts on app-servers, required to define the nginx upstream
 
 
 - name: install and configure nginx

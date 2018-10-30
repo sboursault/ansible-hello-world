@@ -2,9 +2,7 @@
 
 ---
 - name: block demo
-  hosts: all
-  vars:
-  vars_files:
+  hosts: app-server1
   tasks:
 
     - debug: msg="before block"
@@ -18,14 +16,14 @@
         shell: unknown_command
       - name: execute task 4
         shell: echo "task 4"
-
       rescue:
         - name: execute rescue task
           shell: echo "revert changes"
-
       always:
         - name: cleaning
           shell: echo "cleaning"
+      become: true
+      become_user: root
 
     - debug: msg="after block"
 
