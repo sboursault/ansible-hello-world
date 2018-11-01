@@ -11,13 +11,14 @@
 
 - name: install and configure nginx
   hosts: reverse-proxy
+  become: true
+  become_user: root
   roles:
     - role: nginx
       nginx_config_templates: nginx/nginx_upstream.conf.j2
-      nginx_sites_template: nginx/nginx_sites.conf.j2
+      nginx_sites_template: nginx/nginx_sites_with_proxypass.conf.j2
+      nginx_index_html: nginx/index.html.j2
 
   post_tasks:
     - name: install load_balancer script
       copy: src=nginx/load_balancer dest=/opt/load_balancer mode=0744
-      become: true
-      become_user: root
