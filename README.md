@@ -58,20 +58,12 @@ Finalize the deployment on both instance
     ssh vagrant@127.0.0.1 -p 2222 -i .vagrant/machines/default/virtualbox/private_key
 
 
-## nginx cheat sheet
-
-### create TLS certificate for the https
-    openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
-      -subj /CN=localhost \
-      -keyout nginx/nginx.key -out nginx/nginx.crt
-
 ## ansible cheat sheet
 
 ### intall ansible
 
+    sudo apt-get install python python-pip
     sudo pip install ansible
-    
-    
     
 ### run a task on a host or a group
 
