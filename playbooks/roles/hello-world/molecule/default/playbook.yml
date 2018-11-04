@@ -1,6 +1,6 @@
 ---
 - name: Converge
-  hosts: all
+  hosts: instance
   roles:
     - role: hello-world
 
@@ -14,5 +14,3 @@
         that:
           - "result.status == 200"
           - '"version: 1.0" in result.content'
-
-    # these asserts could be included in the role

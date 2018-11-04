@@ -1,0 +1,12 @@
+extends: relaxed
+
+rules:
+  braces:
+    max-spaces-inside: 1
+    level: error
+  brackets:
+    max-spaces-inside: 1
+    level: error
+  line-length: disable
+  empty-lines: disable
+  new-line-at-end-of-file: disable

@@ -123,14 +123,14 @@ WARNING :
 
 create a new role
 
+    # with
     ansible-galaxy init <role>
+    # with molecule
+    sudo pip install molecule docker-py
+    molecule init role -r <role-name> -d docker
     
 test your roles with molecule
 
-    sudo pip install molecule
-    sudo pip install docker-py
-    
-    molecule init role -r hello-world -d docker
     molecule [--debug] test
     
 _[...] don’t unit test your playbook.
@@ -160,13 +160,13 @@ Can happen after reloading an image.
 
 # Resources
 
-[Ansible up and running]: http://shop.oreilly.com/product/0636920065500.do
+[Ansible up and running](http://shop.oreilly.com/product/0636920065500.do)
 
-[infrastructure as code]: https://www.youtube.com/watch?v=K843Ukiw3d8
+[infrastructure as code](https://www.youtube.com/watch?v=K843Ukiw3d8)
 
-[Test roles with Molecule]: https://www.jeffgeerling.com/blog/2018/testing-your-ansible-roles-molecule
+[Test roles with Molecule](https://www.jeffgeerling.com/blog/2018/testing-your-ansible-roles-molecule)
 
-[multistage environments]: https://www.digitalocean.com/community/tutorials/how-to-manage-multistage-environments-with-ansible
+[multistage environments](https://www.digitalocean.com/community/tutorials/how-to-manage-multistage-environments-with-ansible)
 
 # 2 quotes from Kief Morris
 

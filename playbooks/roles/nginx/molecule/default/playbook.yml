@@ -1,0 +1,5 @@
+---
+- name: Converge
+  hosts: isntance
+  roles:
+    - role: nginx

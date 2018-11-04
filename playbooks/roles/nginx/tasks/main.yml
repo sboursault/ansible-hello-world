@@ -2,7 +2,7 @@
 # tasks file for nginx
 
 - name: Install nginx
-  apt: name=nginx update_cache=no
+  apt: name=nginx update_cache=yes cache_valid_time=86400
 
 - name: copy nginx config files
   template: src={{ item }} dest=/etc/nginx/conf.d/{{ (item | basename | splitext)[0] }}
