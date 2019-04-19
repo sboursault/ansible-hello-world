@@ -182,5 +182,8 @@ Again, getting these pieces in place with a small, simple set of configuration, 
 
 # TODO
 
- add role dependency (Ansible up and running p184)
- read ansible tips
+- add role dependency (Ansible up and running p184)
+- create a playbook that makes sure a container is up
+   - see docker dynamic inventory https://docs.ansible.com/ansible/2.7/scenario_guides/guide_docker.html
+   - docker container module https://docs.ansible.com/ansible/latest/modules/docker_container_module.html
+   - ansible container may not be a good idea https://blog.octo.com/en/ansible-container-chronicle-of-a-death-foretold/
