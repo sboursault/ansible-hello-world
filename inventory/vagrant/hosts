@@ -14,5 +14,3 @@ app-server2
 
 [all:vars]
 env_name=VAGRANT
-env_color=green
-
