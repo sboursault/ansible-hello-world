@@ -4,7 +4,5 @@
 - name: restart hello-world service
   command: "{{ app_home }}/restart.sh"
   listen:
-    - hello-world_binaries_changed
-    - hello-world_config_changed
-  become: true
-  become_user: root
+    - restart hello-world
+

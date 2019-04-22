@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 
 from flask import Flask
-import os
+import socket
 
-host=os.getenv('HELLO_WORLD_HOST', 'unknown')
+host_name=socket.gethostname()
 
 app = Flask(__name__)
 
 @app.route('/info')
 def info():
-    return 'host: ' + host + '; version: 1.1\n'
+    return 'host: ' + host_name + '; version: 1.1\n'
 
 @app.route('/')
 def hello():

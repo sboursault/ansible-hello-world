@@ -1,42 +1,34 @@
 ---
 # tasks file for hello-world
 
-- block:
-    - name: install apt packages
-      apt: pkg=python-pip update_cache=yes cache_valid_time=86400
+- name: install apt packages
+  apt: pkg=python-pip update_cache=yes cache_valid_time=86400
 
-    - name: install python libraries
-      pip: name={{ item }}
-      with_lines:
-        - cat {{ role_path }}/files/v{{ hello_world_version }}/dependencies.txt  # command executed on the control machine
+- name: install python libraries
+  pip: name={{ item }}
+  with_lines:
+    - cat {{ role_path }}/files/v{{ hello_world_version }}/dependencies.txt  # command executed on the control machine
 
-    - name: create directory
-      file:
-        path: "{{ app_home }}"
-        mode: 0744
-        state: directory
+- name: create directory
+  file:
+    path: "{{ app_home }}"
+    mode: 0744
+    state: directory
 
-    - name: deploy service
-      copy: src={{ item }} dest={{ app_home }}/{{ item | basename }} mode=0744
-      with_items:
-        - files/v{{ hello_world_version }}/app.py
-        - files/start.sh
-        - files/stop.sh
-        - files/restart.sh
-      notify: hello-world_binaries_changed
+- name: deploy service
+  copy: src={{ item }} dest={{ app_home }}/{{ item | basename }} mode=0744
+  with_items:
+    - files/v{{ hello_world_version }}/app.py
+    - files/start.sh
+    - files/stop.sh
+    - files/restart.sh
+  notify: restart hello-world
 
-    - name: configure service
-      template: src=templates/config.j2 dest={{ app_home }}/config mode=0644
-      notify: hello-world_config_changed
+- name: flush handlers
+  meta: flush_handlers
+  # flushing handlers here ensures the service won't get started twice on the first execution
 
-    - name: flush handlers
-      meta: flush_handlers
-      # flushing handlers here ensures the service won't get started twice on the first execution
-
-    - name: run hello-world service
-      command: "{{ app_home }}/start.sh"
-      register: result
-      changed_when: '"service started" in result.stdout|default("")'
-
-  become: true
-  become_user: root
+- name: run hello-world service
+  command: "{{ app_home }}/start.sh"
+  register: result
+  changed_when: '"service started" in result.stdout|default("")'

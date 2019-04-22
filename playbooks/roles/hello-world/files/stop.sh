@@ -5,8 +5,7 @@ set -e # stop script on error
 
 HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-source $HOME/config
-
+#source $HOME/config
 
 if pgrep -f "$HOME/app.py" >/dev/null 2>&1;
 then

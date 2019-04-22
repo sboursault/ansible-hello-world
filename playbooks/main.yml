@@ -3,6 +3,8 @@
 
 - name: install and configure hello-world service
   hosts: app-servers
+  become: true
+  become_user: root
   roles:
     - role: hello-world
       hello_world_version: 1.0
@@ -19,4 +21,7 @@
 
   post_tasks:
     - name: install load_balancer script
-      copy: src=nginx/load_balancer dest=/opt/load_balancer mode=0744
+      copy:
+        src: nginx/load_balancer
+        dest: /opt/load_balancer
+        mode: 0744
