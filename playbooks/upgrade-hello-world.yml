@@ -10,7 +10,7 @@
   pre_tasks:
     - name: remove from load balancer
       delegate_to: reverse-proxy
-      command: /opt/load_balancer remove {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}
+      command: /opt/load_balancer remove {{ ansible_eth1.ipv4.address }}:5005
       register: result
       changed_when: '"instance removed" in result.stdout'
       tags: 'prepare'
@@ -18,13 +18,12 @@
   roles:
     - role: hello-world
       hello_world_version: 1.1
-      #hello_world_port: defined in group_vars
       tags: 'prepare'
 
   post_tasks:
     - name: add to load balancer
       delegate_to: reverse-proxy
-      command: /opt/load_balancer add {{ ansible_eth1.ipv4.address }}:{{ hello_world_port }}
+      command: /opt/load_balancer add {{ ansible_eth1.ipv4.address }}:5005
       register: result
       changed_when: '"instance added" in result.stdout'
       tags: 'finalize'

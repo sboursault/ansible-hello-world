@@ -9,7 +9,6 @@ Role Variables
 | variable            | example values  | default 
 |:--------------------|-----------------|---------
 | hello_world_version | 1.0             | ""     
-| hello_world_port    | 5000            | ""    
 
 
 Example Playbook
@@ -19,4 +18,3 @@ Example Playbook
       roles:
         - role: hello-world
           hello_world_version: 1.1
-          hello_world_port: 5005

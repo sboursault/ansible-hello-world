@@ -6,8 +6,6 @@
   roles:
     - role: hello-world
       hello_world_version: 1.0
-      #hello_world_port: defined group vars
-
 
 - name: install and configure nginx
   hosts: reverse-proxy

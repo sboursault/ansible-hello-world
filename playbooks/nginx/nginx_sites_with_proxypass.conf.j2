@@ -23,7 +23,7 @@ server {
   {% for host in groups['app-servers'] %}
   location /{{ hostvars[host].inventory_hostname }}/hello {
     rewrite ^/[^/]*/hello/?(.*)$ /$1 break;
-    proxy_pass http://{{ hostvars[host].ansible_eth1.ipv4.address }}:{{ hello_world_port }};
+    proxy_pass http://{{ hostvars[host].ansible_eth1.ipv4.address }}:5005;
   }
   {% endfor %}
 

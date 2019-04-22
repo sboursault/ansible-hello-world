@@ -4,6 +4,5 @@
 # "Constants" (variables with a higher precedence), can be defined in <your-role>/vars/main.yml.
 
 hello_world_version: 1.0
-hello_world_port: 5005
 
 app_home: /opt/hello-world

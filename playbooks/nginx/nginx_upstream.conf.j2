@@ -1,5 +1,5 @@
 upstream app-server {
     {% for host in groups['app-servers'] %}
-        server {{ hostvars[host].ansible_eth1.ipv4.address }}:{{ hello_world_port }};
+        server {{ hostvars[host].ansible_eth1.ipv4.address }}:5005;
     {% endfor %}
 }

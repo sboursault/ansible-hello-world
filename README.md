@@ -2,7 +2,17 @@
 
 ## Run the project
 
-Prerequisites : vagrant and ansible installed
+Prerequisites : vagrant is installed
+    
+Install ansible
+        
+    sudo apt-get install python python-pip
+    sudo pip install ansible
+        
+Clone the project
+
+    git clone https://github.com/sboursault/ansible-hello-world.git
+    cd ansible-hello-world
     
 Start vagrant VMs (1 nginx and 2 application servers)
 
@@ -11,31 +21,38 @@ Start vagrant VMs (1 nginx and 2 application servers)
 Install nginx and the hello world service on both application servers
 
     playbooks/main.yml -i inventory/vagrant
-    
-Call the hello-world service through nginx
 
-    curl -i http://localhost:8080/hello/info
-    
-And repeat to get the response from the other instance
+Verify the hello-world is running: call the /info end-point through nginx
 
-    curl -i http://localhost:8080/hello/info
+    curl http://localhost:8080/hello/info
+    
+And again to get the response from the other instance
+
+    curl http://localhost:8080/hello/info
     
 Upgrade the hello-service on one instance
 
     # remove app-server1 from load balancer and upgrade
     playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit app-server1 --tags prepare
 
-Verify the deployment
+Verify the deployment on app-server1
 
-    curl -i http://localhost:8080/hello/info # no more response from app-server1
-    curl -i http://localhost:8080/app-server1/hello/info # verify the upgraded instance
+    # nginx forwards all requests to app-server2 (still in version 1.0)
+    curl http://localhost:8080/hello/info
+    
+    # app-server1 now serves the version 1.1
+    curl http://localhost:8080/app-server1/hello/info  
 
 Finalize the deployment on both instance
 
     playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit app-server1 --tags finalize
     playbooks/upgrade-hello-world.yml -i inventory/vagrant --limit app-server2
 
-
+And verify the deployment is completed: app-server1 and app-server2 both serve the version 1.1
+    
+    curl http://localhost:8080/hello/info
+    curl http://localhost:8080/hello/info
+    
 ## vagrant cheat sheet
 
 ### create the Vagrantfile
@@ -59,12 +76,7 @@ Finalize the deployment on both instance
 
 
 ## ansible cheat sheet
-
-### intall ansible
-
-    sudo apt-get install python python-pip
-    sudo pip install ansible
-    
+   
 ### run a task on a host or a group
 
     ansible app-server1 -m ping -i inventory/vagrant
@@ -98,7 +110,6 @@ Finalize the deployment on both instance
 ### getting hostvars
 
     ansible app-server1 -m debug -a var=hostvars -i inventory/vagrant
-
 
 ### playbooks
 

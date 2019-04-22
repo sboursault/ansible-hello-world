@@ -1,18 +1,20 @@
+#!/usr/bin/env python
+
 from flask import Flask
 import os
 
-port=os.getenv('HELLO_WORLD_PORT', 5000)
 host=os.getenv('HELLO_WORLD_HOST', 'unknown')
 
 app = Flask(__name__)
 
 @app.route('/info')
 def info():
-    return 'host: ' + host + '; version: 1.0'
+    return 'host: ' + host + '; version: 1.0\n'
 
 @app.route('/')
 def hello():
-    return "Hello World!"
+    return "Hello World!\n"
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=True, host='0.0.0.0', port=5005)
+
