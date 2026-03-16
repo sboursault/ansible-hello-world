@@ -173,23 +173,10 @@ Can happen after reloading an image.
 
 [Ansible up and running](http://shop.oreilly.com/product/0636920065500.do)
 
-[infrastructure as code](https://www.youtube.com/watch?v=K843Ukiw3d8)
-
 [Test roles with Molecule](https://www.jeffgeerling.com/blog/2018/testing-your-ansible-roles-molecule)
 
 [multistage environments](https://www.digitalocean.com/community/tutorials/how-to-manage-multistage-environments-with-ansible)
 
-# 2 quotes from Kief Morris
-
-_The essence of Infrastructure as Code is to treat the configuration of systems the same way that software source code is treated.
-Source code management systems, Test Driven Development (TDD), Continuous Integration (CI), refactoring, and other XP practices are especially useful for making sure that changes to infrastructure are thoroughly tested, repeatable and transparent.
-(https://www.thoughtworks.com/insights/blog/infrastructure-code-iron-age-cloud-age)_
-
-_The only way to break the spiral is to face your fears. Pick a subset of your servers, choose one or two things on them to put under configuration management, and then schedule these to be applied unattended, at least once an hour.
-Starting small and simple helps to limit the risk. The important thing is that you take the leap—let the automation go on its own, without you holding its hand. Then you can increase the scope—add a few more parts of the server to the automation, and extend it to more servers.
-You should also build out other things that will give you more confidence, piece by piece. Add monitoring to detect when the thing you’ve automated goes wrong. Set up Continuous Integration to automatically test the configuration change every time you commit.
-Again, getting these pieces in place with a small, simple set of configuration, creates the platform. You can then extend the coverage with confidence.*
-(https://www.thoughtworks.com/insights/blog/infrastructure-code-automation-fear-spiral)_
 
 # TODO
 
